@@ -1,9 +1,10 @@
 from tkinter import *
 
-UseTkinter = True
+UseTkinter = True    # Défini le fait qu'on utilise l'interface Tkinter ou non
 
 def Conver(x=0, c=32, tku=True):
-    if tku is False:
+    
+    if tku is False:    # On vérifie l'état de la variable "tku" pour se servir ou non de l'interface
         x = input("Donnez un chiffre décimal --> ")
         try:
             c = int(input("\nEn combien de bits ? Dites 32 ou 64 -->"))
@@ -18,25 +19,25 @@ def Conver(x=0, c=32, tku=True):
                 c = 12
                 pass
 
-    try:
+    try:    # On vérifie que x est inclu dans l'enssemble des réels.
         x = float(x)
-    except ValueError:
+    except ValueError:    # Sinon on le précise
         return "Il faut entrer un nombre ! Et rien d'autre !"
 
     print(x)
-    if c == 32:
+    if c == 32:    # Si la longueur est 32 bits
         w = 23
         y = 126
-    else:
+    else:          # Si la longueur est 64 bits
         w = 52
         y = 1022
 
-    if x > 0 or x == 0:
-        sign = "0"
-    elif x < 0:
-        sign = "1"
+    if x > 0 or x == 0:    #    On défini la partie du signe
+        sign = "0"         #
+    elif x < 0:            #
+        sign = "1"         #
 
-    def frac(x):
+    def frac(x):    # On génère la partie fractionnée
         fract = ""
         y = x - int(x)
         y = abs(y)
@@ -49,7 +50,7 @@ def Conver(x=0, c=32, tku=True):
                 fract += "0"
         return fract
 
-    def exp(x):
+    def exp(x):    # On génère la partie de l'exposant
         e = int(abs(x))
         expo = ""
         while e != 0:
@@ -57,28 +58,28 @@ def Conver(x=0, c=32, tku=True):
             e = e // 2
         return expo
 
-    expo = exp(x)
-    expo2 = exp(len(expo) + y)
-    fract = (expo[1:32] + frac(x))[:w]
-    tot = sign + expo2 + fract
+    expo = exp(x)                         # On génère l'exposant sans le décalage
+    expo2 = exp(len(expo) + y)            # On génère l'exposant avec le décalage
+    fract = (expo[1:32] + frac(x))[:w]    # On génère la mantisse
+    tot = sign + expo2 + fract            # On concatène tout
 
-    return tot
+    return tot        # On renvoie la valeur finale
 
-def Conv_32():
+def Conv_32():        # On converti en 32 bits
     x = Conver(valeur.get())
     value.set(x)
     if len(x) != 44:
         root.clipboard_clear()
         root.clipboard_append(x)
 
-def Conv_64():
+def Conv_64():        # On converti en 64 bits
     x = Conver(valeur.get(), 64)
     value.set(x)
     if len(x) != 44:
         root.clipboard_clear()
         root.clipboard_append(x)
 
-if UseTkinter is True:
+if UseTkinter is True:    # On créer l'interface
 
     root = Tk()
     root.config(bg="#006EB1")
